@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1039191444228",
+    "project_id": "ezcredit-e0ec1",
+    "storage_bucket": "ezcredit-e0ec1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039191444228:android:eee03766d767666cf51e51",
+        "android_client_info": {
+          "package_name": "com.ascot.ez.credit.ezcredit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039191444228-vkqkes3brsr7vsohfmfj2rk4ta1mcdtv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ascot.ez.credit.ezcredit",
+            "certificate_hash": "9aba3e51b4ecef4c5f62f66803d86c932536903f"
+          }
+        },
+        {
+          "client_id": "1039191444228-67jtvnrdqom970rgbk714eo3ptkvg64s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx19jwBBUtiGmm8FS83eD6OUb_uEfZKlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039191444228-67jtvnrdqom970rgbk714eo3ptkvg64s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

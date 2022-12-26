@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ezcredit/controller/apply_controller.dart';
 import 'package:ezcredit/controller/profile_controller.dart';
@@ -127,9 +129,14 @@ class _PersonalFieldApplyState extends State<PersonalFieldApply> {
 
   @override
   void initState() {
-    getProfileFromMap();
-    countries =
-        Provider.of<GeneralController>(context, listen: false).countriesModel;
+    getProfileFromMap().then((value) {
+      setState(() {
+        countries = Provider.of<GeneralController>(context, listen: false)
+            .countriesModel;
+      });
+      log("init countries $countries");
+    });
+
     super.initState();
   }
 
@@ -266,6 +273,7 @@ class _PersonalFieldApplyState extends State<PersonalFieldApply> {
                         return null;
                       },
                       onChanged: (value) async {
+                        log("countries $countries");
                         SharedPreferences pref =
                             await SharedPreferences.getInstance();
                         int index = countriesStrings!.indexWhere((element) {

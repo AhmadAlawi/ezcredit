@@ -31,11 +31,18 @@ class _EmployementWidgetState extends State<EmployementWidget> {
       ? myMap['employment_status']['ar']
       : myMap['employment_status']['en'];
 
+  List<String> emplyerType = local == ConfigLanguage.arLocale
+      ? myMap['employer_type']['ar']
+      : myMap['employer_type']['en'];
+
   String? employedValue;
+  String? emplyerValue;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController employerController = TextEditingController();
+  final TextEditingController emplyerController = TextEditingController();
   final TextEditingController incomeController = TextEditingController();
+  final TextEditingController salaryController = TextEditingController();
 
   void updateClicks(BuildContext context) {
     Provider.of<ClickStatus>(context, listen: false).updateClick();
@@ -167,36 +174,35 @@ class _EmployementWidgetState extends State<EmployementWidget> {
                           style: const TextStyle(color: Colors.black),
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.text,
-                          decoration: AppStyles.formStyle(
-                              "ABC trading and contracting Co.",
+                          decoration: AppStyles.formStyle("Sector Type",
+                              suffixIcon: Icon(Icons.arrow_drop_down),
                               radius: 8.r,
                               filledColor: AppColors.formFillColor,
                               borderColor: AppColors.formBorderColor,
                               focusBorderColor: AppColors.formBorderColor,
                               enabledBorderColor: AppColors.formBorderColor),
                         )
-                      : TextFormField(
-                          autofocus: false,
-                          focusNode: text2,
-                          style: const TextStyle(color: Colors.black),
-                          controller: employerController,
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.text,
+                      : MainDropDownMenu(
+                          items: emplyerType,
+                          value: emplyerValue,
+                          hint: '',
                           validator: (value) {
-                            if (value == null ||
-                                value.isEmpty &&
-                                    emplymentStatus[0] == employedValue) {
+                            if (value == null || value.isEmpty) {
                               return KeyLang.enterValue.tr();
                             }
                             return null;
                           },
-                          decoration: AppStyles.formStyle(
-                              "ABC trading and contracting Co.",
-                              radius: 8.r,
-                              borderColor: AppColors.formBorderColor,
-                              focusBorderColor: AppColors.formBorderColor,
-                              enabledBorderColor: AppColors.formBorderColor),
-                        ),
+                          onChanged: (value) {
+                            emplyerValue = value;
+                            if (emplyerValue == emplyerType[0] ||
+                                emplyerValue == emplyerType[1] ||
+                                emplyerValue == emplyerType[2]) {
+                              emplyerController.text;
+                            } else {
+                              emplyerController.text = '';
+                            }
+                            setState(() {});
+                          }),
                   SizedBox(
                     height: 18.h,
                   ),
@@ -246,7 +252,7 @@ class _EmployementWidgetState extends State<EmployementWidget> {
                           if (formKey.currentState!.validate()) {
                             profile = false;
                             employerStatus = employedValue == emplymentStatus[0]
-                                ? employerController.text
+                                ? emplyerController.text
                                 : 'unemployed';
                             employedValue == emplymentStatus[0]
                                 ? employedValue =
@@ -258,9 +264,10 @@ class _EmployementWidgetState extends State<EmployementWidget> {
                                         myMap['employment_status']['en'][2];
 
                             await employmentProvider.addEmploymentInfoHandler(
-                                employer: '$employerStatus',
+                                employer: '$emplyerValue',
                                 status: '$employedValue',
                                 income: int.parse(incomeController.text),
+                                salary: int.parse(salaryController.text),
                                 context: context);
                             if (local == ConfigLanguage.arLocale) {
                               employedValue ==
@@ -278,7 +285,7 @@ class _EmployementWidgetState extends State<EmployementWidget> {
                             }
                           } else {
                             autoValidate = AutovalidateMode.onUserInteraction;
-                            if (employerController.text.isEmpty) {
+                            if (emplyerController.text.isEmpty) {
                               text2.requestFocus();
                             } else if (incomeController.text.isEmpty) {
                               text3.requestFocus();

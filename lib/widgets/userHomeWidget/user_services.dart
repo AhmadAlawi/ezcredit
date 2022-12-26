@@ -68,6 +68,28 @@ class UserServicesWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       SvgPicture.asset(
+                        SvgAssets.loan,
+                        width: 50,
+                        height: 50,
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Text(KeyLang.carleasing.tr(),
+                          style: AppColors.fredoka.bodyLarge!.copyWith(
+                            color: AppColors.titleColor,
+                          )),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    mainController.changeBodyHandler(0);
+                    selectedServicesIndex = 2;
+                  },
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
                         SvgAssets.creditCard,
                         width: 50,
                         height: 50,
@@ -85,7 +107,7 @@ class UserServicesWidget extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     mainController.changeBodyHandler(0);
-                    selectedServicesIndex = 2;
+                    selectedServicesIndex = 3;
                   },
                   child: Column(
                     children: [

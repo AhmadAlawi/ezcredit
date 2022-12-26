@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ezcredit/controller/employment_controller.dart';
 import 'package:ezcredit/widgets/generalWidgets/main_button.dart';
@@ -39,6 +41,7 @@ class _EmploymentFieldApplyState extends State<EmploymentFieldApply> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController employerController = TextEditingController();
   final TextEditingController incomeController = TextEditingController();
+  final TextEditingController salaryController = TextEditingController();
 
   void updateClicks(BuildContext context) {
     Provider.of<ClickStatus>(context, listen: false).updateClick();
@@ -82,6 +85,8 @@ class _EmploymentFieldApplyState extends State<EmploymentFieldApply> {
   AutovalidateMode autoValidate = AutovalidateMode.disabled;
   FocusNode text2 = new FocusNode();
   FocusNode text3 = new FocusNode();
+  FocusNode salarytext = new FocusNode();
+
   FocusNode drop1 = new FocusNode();
 
   @override
@@ -183,11 +188,12 @@ class _EmploymentFieldApplyState extends State<EmploymentFieldApply> {
                           if (employerStatus == emplyerType[0] ||
                               employerStatus == emplyerType[1] ||
                               employerStatus == emplyerType[2]) {
-                            employerController.text;
+                            employerController.text = employerStatus!;
                           } else {
-                            employerController.text = '';
+                            employerController.text = 'none';
                           }
                           setState(() {});
+                          log("value = ${employerController.text}");
                         }),
                 SizedBox(
                   height: 18.h,
@@ -209,6 +215,34 @@ class _EmploymentFieldApplyState extends State<EmploymentFieldApply> {
                   focusNode: text3,
                   style: const TextStyle(color: Colors.black),
                   controller: incomeController,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return KeyLang.enterValue.tr();
+                    }
+                    return null;
+                  },
+                  decoration: AppStyles.formStyle("1000",
+                      radius: 8.r,
+                      borderColor: AppColors.formBorderColor,
+                      focusBorderColor: AppColors.formBorderColor,
+                      enabledBorderColor: AppColors.formBorderColor),
+                ),
+                SizedBox(
+                  height: 18.h,
+                ),
+                Text(
+                  KeyLang.salary.tr(),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                TextFormField(
+                  autofocus: false,
+                  focusNode: salarytext,
+                  style: const TextStyle(color: Colors.black),
+                  controller: salaryController,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -271,10 +305,11 @@ class _EmploymentFieldApplyState extends State<EmploymentFieldApply> {
                               await applyController
                                   .saveDataHandlerData(applyMap: {
                                 'income': incomeController.text,
+                                'salary': salaryController.text,
                                 'status': employedValue?.toLowerCase(),
                                 'currency': 'KWD',
                                 'employer': employedValue == emplymentStatus[0]
-                                    ? employerController.text
+                                    ? employerController.text.toLowerCase()
                                     : 'unemployed',
                               }).then((value) async {
                                 Map<String, dynamic>? validateTwoMap = {};
@@ -291,12 +326,14 @@ class _EmploymentFieldApplyState extends State<EmploymentFieldApply> {
                                           employer: employedValue ==
                                                   emplymentStatus[0]
                                               ? employerController.text
-                                              : 'unemployed',
+                                              : 'none',
                                           status:
                                               employedValue?.toLowerCase() ??
                                                   '',
                                           income:
                                               int.parse(incomeController.text),
+                                          salary:
+                                              int.parse(salaryController.text),
                                           context: context);
                                   updateClicks(context);
                                 } else {

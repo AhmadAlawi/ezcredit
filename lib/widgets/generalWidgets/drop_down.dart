@@ -11,22 +11,25 @@ class MainDropDownMenu extends StatelessWidget {
   final String? Function(String?)? validator;
   final ValueChanged onChanged;
   final FocusNode? focusNode;
-  const MainDropDownMenu({
-    Key? key,
-    required this.items,
-    this.width,
-    this.icon,
-    required this.hint,
-    this.errorText,
-    this.validator,
-    required this.onChanged,
-    this.value,
-    this.focusNode,
-  }) : super(key: key);
+  final bool disabled;
+  const MainDropDownMenu(
+      {Key? key,
+      required this.items,
+      this.width,
+      this.icon,
+      required this.hint,
+      this.errorText,
+      this.validator,
+      required this.onChanged,
+      this.value,
+      this.focusNode,
+      this.disabled = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
+        disabledHint: Text("disanled"),
         isExpanded: true,
         autofocus: false,
         value: value,
@@ -63,6 +66,6 @@ class MainDropDownMenu extends StatelessWidget {
               ),
             )
             .toList(),
-        onChanged: onChanged);
+        onChanged: disabled ? null : onChanged);
   }
 }

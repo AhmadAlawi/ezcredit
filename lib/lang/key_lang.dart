@@ -311,4 +311,7 @@ class KeyLang {
   static String whyLoan7 = 'whyLoan7';
   static String loanEnd1 = 'loanEnd1';
   static String loanEnd2 = 'loanEnd2';
+
+  static String salary = 'salary';
+  static String carleasing = 'Car Leasing';
 }

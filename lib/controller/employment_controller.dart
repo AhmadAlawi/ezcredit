@@ -79,6 +79,7 @@ class EmploymentController extends ChangeNotifier {
     required String employer,
     required String status,
     required int income,
+    required int salary,
     required BuildContext context,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
